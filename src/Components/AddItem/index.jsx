@@ -1,72 +1,114 @@
-import React from 'react'
-import { Card, Col, Row } from 'react-bootstrap'
-import { Form } from 'react-router-dom'
-import ToDoButton from '../Button'
+import React, { useState } from 'react';
+import { Modal, Col, Row, Form } from 'react-bootstrap';
+import ToDoButton from '../Button';
+import Select from 'react-select';
+import { options } from './data';
+import chroma from 'chroma-js';
+import Check from '../../assets/images/tabler_check.png';
 
-const options = [
-  {
-    id: 1,
-    title: <h2><span className='bg-[#ED4C5C] w-[14px] h-[14px]'></span>Very High</h2>,
-    label: 'Very High'
-  },
-  {
-    id: 2,
-    title: <h2><span className='bg-[#F8A541] w-[14px] h-[14px]'></span>High</h2>,
-    label: 'High'
-  },
-  {
-    id: 3,
-    title: <h2><span className='bg-[#00A790] w-[14px] h-[14px]'></span>Medium</h2>,
-    label: 'Medium'
-  },
-  {
-    id: 4,
-    title: <h2><span className='bg-[#428BC1] w-[14px] h-[14px]'></span>Low</h2>,
-    label: 'Low'
-  },
-  {
-    id: 1,
-    title: <h2><span className='bg-[#8942C1] w-[14px] h-[14px]'></span>Very Low</h2>,
-    label: 'Very Low'
-  }
-]
+const dot = (color = 'transparent') => ({
+  alignItems: 'center',
+  display: 'flex',
 
-const AddItem = () => {
+  ':before': {
+    backgroundColor: color,
+    borderRadius: 10,
+    content: '" "',
+    display: 'block',
+    marginRight: 8,
+    height: 10,
+    width: 10,
+  },
+});
+
+const colourStyles = {
+  control: styles => ({ ...styles, backgroundColor: 'white' }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    const color = chroma(data.color);
+    return {
+      ...styles,
+      width: '205px',
+      display: 'flex',
+      alignItems: 'center',
+      backgroundColor: chroma.contrast(color, 'white'),
+      color: chroma.contrast(color, 'black'),
+      ':before': {
+        backgroundColor: data.color,
+        borderRadius: 10,
+        content: '" "',
+        display: 'block',
+        marginRight: 8,
+        height: 10,
+        width: 10,
+      },
+      ':after': isSelected && !isDisabled
+        ? {
+          content: '"✓"',
+          marginLeft: '30px',
+        }
+        : { content: '" "' },
+    };
+  },
+  input: styles => ({ ...styles, ...dot() }),
+  placeholder: styles => ({ ...styles, ...dot('#ccc') }),
+  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+};
+
+const AddItem = ({ isModal, setIsModal }) => {
+  const [listItem, setListItem] = useState('');
+
+  const handleCloseModal = () => {
+    setIsModal(false);
+  };
+
+  const handleChange = e => {
+    setListItem(e.target.value);
+  };
+
   return (
-    <Card className="rounded">
-      <Card.Header>
-        Tambah List Item
-      </Card.Header>
-      <Card.Body>
+    <Modal show={isModal} className="rounded modal-xl">
+      <Modal.Header onHide={handleCloseModal} closeButton>
+        <h2 className="mb-0 font-[600] text-[18px] text-[#111111]">
+          Tambah List Item
+        </h2>
+      </Modal.Header>
+      <Modal.Body>
         <Form>
-          <Form.Group as={Row}>
-            <Form.Label>Nama Item List</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Tambahkan nama list item"
-            />
-            <Form.Label>Priority</Form.Label>
-            <Form.Select
-              defaultValue={'Pilih priority'}
-              required={true}
-            >
-              <option>Pilih priority</option>
-              {options.map(item => (
-                <option key={item.id} label={item.label}>{item.title}</option>
-              ))}
-            </Form.Select>
-          </Form.Group>
+          <Form.Label>NAMA LIST ITEM</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Tambahkan nama list item"
+            className="mb-3 py-2"
+            value={listItem}
+            onChange={handleChange}
+          />
+          <Form.Label>PRIORITY</Form.Label>
+          <Select
+            className='w-[205px]'
+            defaultValue={options[0]}
+            options={options}
+            styles={colourStyles}
+          />
         </Form>
-      </Card.Body>
-      <Card.Footer>
+      </Modal.Body>
+      <Modal.Footer>
         <Row>
           <Col className="d-flex align-items-center justify-content-end">
-            <ToDoButton>Simpan</ToDoButton>
+            <ToDoButton
+              disabled={listItem === ''}
+              className={[
+                'bg-[#16ABF8] text-white',
+                listItem === '' ? 'opacity-30' : 'opacity-100',
+              ].join(' ')}
+              onClick={() => setIsModal(false)}
+            >
+              Simpan
+            </ToDoButton>
           </Col>
         </Row>
-      </Card.Footer>
-    </Card>
-  )
-}
+      </Modal.Footer>
+    </Modal>
+  );
+};
 
-export default AddItem
+export default AddItem;
