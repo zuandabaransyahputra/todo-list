@@ -1,13 +1,9 @@
-import Navbar from './Components/Navbar';
-import Home from './Pages/Home';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Router from './Router';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Home />
-    </div>
+    <Router />
   );
 }
 
