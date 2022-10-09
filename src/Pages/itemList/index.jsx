@@ -8,6 +8,11 @@ import { getData, patchData } from '../../utils/fetchdata';
 import AddItem from '../../Components/AddItem';
 import { FiTrash } from 'react-icons/fi';
 import Alert from '../../Components/Alert';
+import { Dropdown } from 'react-bootstrap';
+import SortButton from '../../assets/images/todo-sort-button.png';
+import { dataDropdown } from './dataDropdown';
+import ActiveIcon from '../../assets/images/active.png';
+import './style.scss';
 
 const colorPriority = [
   {
@@ -39,22 +44,24 @@ const colorPriority = [
 
 const ItemList = () => {
   const [isModal, setIsModal] = useState(false);
-  const [isDelete, setIsDelete] = useState(false)
+  const [isActiveFilter, setIsActiveFilter] = useState(0);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [editId, setEditId] = useState()
+  const [editId, setEditId] = useState();
   const [formListTitle, setFormListTitle] = useState({
     title: '',
     email: 'zuandabaransyahputra@gmail.com',
   });
-  const [deleteList, setDeleteList] = useState({})
+  const [deleteList, setDeleteList] = useState({});
   const [listTodo, setListTodo] = useState([]);
-  const [type, setType] = useState("")
+  const [type, setType] = useState('');
   const navigate = useNavigate();
   const params = useParams();
 
   const handleListItem = e => {
     e.preventDefault();
-    setType("AddList")
+    setType('AddList');
     setIsModal(true);
   };
 
@@ -91,13 +98,13 @@ const ItemList = () => {
       }
     });
     setListTodo(_temp);
-    await patchData(`/todo-items/${id}`, _temp[index])
+    await patchData(`/todo-items/${id}`, _temp[index]);
   };
 
-  const handleClick = (e) => {
-    e.preventDefault()
-    setIsEdit(true)
-  }
+  const handleClick = e => {
+    e.preventDefault();
+    setIsEdit(true);
+  };
 
   useEffect(() => {
     const fetch = async id => {
@@ -116,25 +123,69 @@ const ItemList = () => {
   }, [params.id, isDelete, isModal]);
 
   const handleDeleteList = async (e, id, title) => {
-    e.preventDefault()
+    e.preventDefault();
     setDeleteList({
       id: id,
-      title: title
-    })
-    setIsDelete(true)
+      title: title,
+    });
+    setIsDelete(true);
   };
 
   const handleClickEditList = (e, id) => {
-    e.preventDefault()
-    setType("EditList")
-    setEditId(id)
-    setIsModal(true)
-  }
+    e.preventDefault();
+    setType('EditList');
+    setEditId(id);
+    setIsModal(true);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleClickFilter = (e, item) => {
+    e.preventDefault();
+    const _temp = [...listTodo];
+    if (item.title === 'Terbaru') {
+      _temp.sort(function (a, b) {
+        return b.id - a.id;
+      });
+    } else if (item.title === 'Terlama') {
+      _temp.sort(function (a, b) {
+        return a.id - b.id;
+      });
+    } else if (item.title === 'A-Z') {
+      _temp.sort(function (a, b) {
+        return a.title.localeCompare(b.title);
+      });
+    } else if (item.title === 'Z-A') {
+      _temp.sort(function (a, b) {
+        return b.title.localeCompare(a.title);
+      });
+    } else {
+      _temp.sort(function (a, b) {
+        return b.is_active.localeCompare(a.is_active);
+      });
+    }
+    setIsActiveFilter(item.id);
+    setListTodo(_temp);
+  };
 
   return (
     <>
-      <Alert isModal={isDelete} setIsModal={setIsDelete} type="todo" id={deleteList.id} title={`Apakah anda yakin menghapus List Item "${deleteList.title}"?`} />
-      <AddItem isModal={isModal} setIsModal={setIsModal} id={params.id} type={type} editId={editId} />
+      <Alert
+        isModal={isDelete}
+        setIsModal={setIsDelete}
+        type="todo"
+        id={deleteList.id}
+        title={`Apakah anda yakin menghapus List Item "${deleteList.title}"?`}
+      />
+      <AddItem
+        isModal={isModal}
+        setIsModal={setIsModal}
+        id={params.id}
+        type={type}
+        editId={editId}
+      />
       <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-20 mx-auto py-[38px]">
         <section className="flex gap-[20px] items-center justify-between ">
           <div className="flex-[0.7] flex items-center justify-start">
@@ -156,7 +207,10 @@ const ItemList = () => {
                 className="border-0 font-[700] mb-0 text-[#111111] text-[36px] focus:outline-none w-[70%]"
               />
             ) : (
-              <h2 onClick={handleClick} className="font-[700] mb-0 text-[#111111] text-[36px]">
+              <h2
+                onClick={handleClick}
+                className="font-[700] mb-0 text-[#111111] text-[36px]"
+              >
                 {formListTitle.title}
               </h2>
             )}
@@ -167,12 +221,54 @@ const ItemList = () => {
               onClick={handleClickEdit}
             />
           </div>
-          <ToDoButton
-            onClick={handleListItem}
-            className="bg-[#16ABF8] text-white flex-[0.3]"
-          >
-            + Tambah
-          </ToDoButton>
+          <div className="flex-[0.3] flex flex-row gap-4">
+            <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
+              <Dropdown.Toggle
+                id="dropdown-sort"
+                as="a"
+                onClick={toggleDropdown}
+                className="dropdown-toggle"
+              >
+                <img
+                  src={SortButton}
+                  alt="Sort Button"
+                  className="cursor-pointer"
+                />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown-menu dropdown-menu-end profile-dropdown">
+                <div
+                  onClick={toggleDropdown}
+                  className="rounded-md min-w-[235px]"
+                >
+                  {dataDropdown.map(item => {
+                    return (
+                      <div
+                        onClick={e => handleClickFilter(e, item)}
+                        className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
+                        key={item.id}
+                      >
+                        <div className='w-full flex  items-center justify-start gap-4'>
+                          <img src={item.image} alt={`Sort ${item.id}`} />
+                          <h3 className="font-400 text-[16px] text-[#4a4a4a] mb-0">
+                            {item.title}
+                          </h3>
+                        </div>
+                        {item.id === isActiveFilter && (
+                          <img src={ActiveIcon} alt="active" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </Dropdown.Menu>
+            </Dropdown>
+            <ToDoButton
+              onClick={handleListItem}
+              className="bg-[#16ABF8] text-white"
+            >
+              + Tambah
+            </ToDoButton>
+          </div>
         </section>
         <section className="flex flex-col gap-[10px] items-center justify-center w-full h-full mt-[50px]">
           {listTodo.length === 0 ? (
@@ -208,9 +304,7 @@ const ItemList = () => {
                         <div
                           key={prio.id}
                           style={{ background: `${prio.color}` }}
-                          className={[
-                            `w-[9px] h-[9px] rounded-full`,
-                          ].join(' ')}
+                          className={[`w-[9px] h-[9px] rounded-full`].join(' ')}
                         ></div>
                       );
                     }
@@ -220,10 +314,13 @@ const ItemList = () => {
                     src={ImageEdit}
                     alt="Edit"
                     className="ml-[35px] cursor-pointer"
-                    onClick={(e) => handleClickEditList(e, list.id)}
+                    onClick={e => handleClickEditList(e, list.id)}
                   />
                 </div>
-                <FiTrash className='cursor-pointer' onClick={e => handleDeleteList(e, list.id, list.title)} />
+                <FiTrash
+                  className="cursor-pointer"
+                  onClick={e => handleDeleteList(e, list.id, list.title)}
+                />
               </div>
             ))
           )}
