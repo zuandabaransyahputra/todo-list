@@ -4,12 +4,12 @@ import ToDoButton from '../../Components/Button'
 import CardToDo from '../../Components/Card'
 import { Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { createActivity, getDataActivity } from '../../redux/activityGroups'
+import { createActivity, getDataActivity, reset } from '../../redux/activityGroups'
 
 const Home = () => {
   const dispatch = useDispatch()
   const activity = useSelector(state => state.activity)
-  const { dataActivity, isLoading } = activity
+  const { dataActivity, isLoading, isDelete, isAdd } = activity
 
   const handleClick = async (e) => {
     e.preventDefault()
@@ -20,8 +20,18 @@ const Home = () => {
     dispatch(getDataActivity())
   }, [dispatch])
 
+  useEffect(() => {
+    if (isDelete) {
+      dispatch(getDataActivity())
+    }
+    if (isAdd) {
+      dispatch(getDataActivity())
+      dispatch(reset())
+    }
+  }, [dispatch, isDelete, isAdd])
+
   return (
-    <div className='flex flex-col h-full w-[1000px] mx-auto py-[43px]'>
+    <div className='flex flex-col h-full lg:max-w-[1000px] lg:px-0 px-20 mx-auto py-[43px]'>
       <section className='flex w-full items-start justify-between'>
         <h2 className='text-[#111111] font-[700] text-[36px]'>Activity</h2>
         <ToDoButton onClick={handleClick} className="bg-[#16ABF8] text-white">{isLoading ? (
@@ -36,7 +46,7 @@ const Home = () => {
           <img src={Image} alt="background" />
           <div onClick={handleClick} className='absolute bg-[#16ABF8] top-[94px] cursor-pointer opacity-0 right-[165px] w-[117px] h-[117px] rounded-full'></div>
         </div>) : (
-          <div className="grid grid-cols-primary gap-[20px] w-[1000px]">
+          <div className="grid grid-cols-primary justify-center gap-[20px] w-[1000px]">
             {dataActivity.map(data => (
               <CardToDo key={data.id} title={data.title} tanggal={data.created_at} id={data.id} />
             ))}

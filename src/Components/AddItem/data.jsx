@@ -1,9 +1,9 @@
 export const options = [
-  { value: 'Very High', label: 'Very High', color: '#ED4C5C', },
-  { value: 'High', label: 'High', color: '#F8A541' },
+  { value: 'very-high', label: 'Very High', color: '#ED4C5C', },
+  { value: 'high', label: 'High', color: '#F8A541' },
   {
-    value: 'Medium', label: 'Medium', color: '#00A790'
+    value: 'medium', label: 'Medium', color: '#00A790'
   },
-  { value: 'Low', label: 'Low', color: '#428BC1', },
-  { value: 'Very Low', label: 'Very Low', color: '#8942C1', },
+  { value: 'low', label: 'Low', color: '#428BC1', },
+  { value: 'very-low', label: 'Very Low', color: '#8942C1', },
 ]

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Col, Row, Form } from 'react-bootstrap';
 import ToDoButton from '../Button';
 import Select from 'react-select';
 import { options } from './data';
 import chroma from 'chroma-js';
+import { getData, patchData, postData } from '../../utils/fetchdata';
 
 const dot = (color = 'transparent') => ({
   alignItems: 'center',
@@ -53,16 +54,64 @@ const colourStyles = {
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 
-const AddItem = ({ isModal, setIsModal }) => {
-  const [listItem, setListItem] = useState('');
+const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
+  const [listItem, setListItem] = useState({
+    activity_group_id: id,
+    title: '',
+    priority: 'very-high'
+  });
 
   const handleCloseModal = () => {
     setIsModal(false);
   };
 
+  useEffect(() => {
+    const fetch = async (id) => {
+      if (type === 'EditList') {
+        const response = await getData(`/todo-items/${id}`)
+        setListItem({
+          ...listItem,
+          title: response.data.title,
+          priority: response.data.priority,
+          is_active: response.data.is_active
+        })
+      }
+    }
+    fetch(editId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId, type])
+
   const handleChange = e => {
-    setListItem(e.target.value);
+    setListItem({
+      ...listItem,
+      title: e.target.value
+    });
   };
+
+  const handleSimpan = async (e) => {
+    e.preventDefault()
+    if (type === 'EditList') {
+      await patchData(`/todo-items/${editId}`, listItem)
+    } else {
+      await postData('/todo-items', listItem)
+    }
+    setIsModal(false)
+  }
+
+  const handleChangeOption = (e) => {
+    if (e.value === 'medium') {
+      setListItem({
+        ...listItem,
+        priority: 'normal'
+      })
+    } else {
+      setListItem({
+        ...listItem,
+        priority: e.value
+      })
+    }
+
+  }
 
   return (
     <Modal show={isModal} className="rounded modal-lg" centered>
@@ -78,15 +127,16 @@ const AddItem = ({ isModal, setIsModal }) => {
             type="text"
             placeholder="Tambahkan nama list item"
             className="mb-3 py-2"
-            value={listItem}
+            value={listItem.title}
             onChange={handleChange}
           />
           <Form.Label>PRIORITY</Form.Label>
           <Select
-            className='w-[205px]'
-            defaultValue={options[0]}
+            className='w-[205px] cursor-pointer'
+            defaultValue={options.find(i => i.value === listItem.priority) || options[0]}
             options={options}
             styles={colourStyles}
+            onChange={handleChangeOption}
           />
         </Form>
       </Modal.Body>
@@ -94,12 +144,12 @@ const AddItem = ({ isModal, setIsModal }) => {
         <Row>
           <Col className="d-flex align-items-center justify-content-end">
             <ToDoButton
-              disabled={listItem === ''}
+              disabled={listItem.title === ''}
               className={[
                 'bg-[#16ABF8] text-white',
-                listItem === '' ? 'opacity-30' : 'opacity-100',
+                listItem.title === '' ? 'opacity-30' : 'opacity-100',
               ].join(' ')}
-              onClick={() => setIsModal(false)}
+              onClick={handleSimpan}
             >
               Simpan
             </ToDoButton>

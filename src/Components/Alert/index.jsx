@@ -4,9 +4,10 @@ import Delete from '../../assets/images/modal-delete-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ToDoButton from '../Button';
 import { deleteActivity } from '../../redux/activityGroups';
+import { deleteData } from '../../utils/fetchdata';
 
 
-const Alert = ({ title, isModal, setIsModal, id, setIsSuccess }) => {
+const Alert = ({ title, isModal, setIsModal, id, type }) => {
   const dispatch = useDispatch();
   const activity = useSelector(state => state.activity);
   const { isLoading } = activity;
@@ -14,19 +15,19 @@ const Alert = ({ title, isModal, setIsModal, id, setIsSuccess }) => {
   const handleDelete = async e => {
     e.preventDefault();
     try {
-      dispatch(deleteActivity(id));
-      setIsSuccess(true)
+      if (type === 'activity') {
+        dispatch(deleteActivity(id));
+      } else {
+        await deleteData(`/todo-items/${id}`)
+      }
       setIsModal(false)
     } catch (error) {
       console.log(error)
     }
   };
 
-
-
   return (
     <>
-
       <Modal show={isModal} className="modal-lg">
         <Modal.Body>
           <div className="flex flex-col items-center justify-center h-full py-[50px] gap-[50px]">

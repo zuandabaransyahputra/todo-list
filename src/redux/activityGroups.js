@@ -5,7 +5,8 @@ import { deleteData, getData, postData } from '../utils/fetchdata'
 const initialState = {
   dataActivity: [],
   isLoading: false,
-  isSuccess: false
+  isDelete: false,
+  isAdd: false
 }
 
 export const getDataActivity = createAsyncThunk('activity/getDataActivity', async () => {
@@ -38,23 +39,28 @@ export const activitiesSlice = createSlice({
   name: 'activity',
   initialState,
   reducers: {
-    reset: (state) => state.isSuccess = false
+    reset: (state) => {
+      state.isDelete = false
+      state.isAdd = false
+    }
   },
   extraReducers: (builder) => {
     builder
       .addCase(createActivity.pending, (state) => {
         state.isLoading = true
+        state.isAdd = false
       })
       .addCase(createActivity.fulfilled, (state, action) => {
         state.isLoading = false
+        state.isAdd = true
       })
       .addCase(deleteActivity.pending, (state) => {
         state.isLoading = true
-        state.isSuccess = false
+        state.isDelete = false
       })
       .addCase(deleteActivity.fulfilled, (state, action) => {
         state.isLoading = false
-        state.isSuccess = true
+        state.isDelete = true
       })
       .addCase(getDataActivity.pending, (state) => {
         state.isLoading = true
