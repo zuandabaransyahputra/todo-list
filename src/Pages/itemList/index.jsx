@@ -12,6 +12,7 @@ import { Dropdown } from 'react-bootstrap';
 import SortButton from '../../assets/images/todo-sort-button.png';
 import { dataDropdown } from './dataDropdown';
 import ActiveIcon from '../../assets/images/active.png';
+import Plus from '../../assets/images/tabler_plus.png'
 import './style.scss';
 
 const colorPriority = [
@@ -186,9 +187,9 @@ const ItemList = () => {
         type={type}
         editId={editId}
       />
-      <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-20 mx-auto py-[38px]">
-        <section className="flex gap-[20px] items-center justify-between ">
-          <div className="flex-[0.7] flex items-center justify-start">
+      <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
+        <section className="flex flex-col md:flex-row gap-[20px] items-start md:items-center justify-start md:justify-between ">
+          <div className="md:flex-[0.7] flex items-center justify-start">
             <img
               src={ImageBack}
               alt="back button"
@@ -204,12 +205,12 @@ const ItemList = () => {
                 value={formListTitle.title}
                 onChange={handleChangeTitle}
                 onKeyPress={handleKeyPress}
-                className="border-0 font-[700] mb-0 text-[#111111] text-[36px] focus:outline-none w-[70%]"
+                className="border-0 font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px] focus:outline-none w-[70%]"
               />
             ) : (
               <h2
                 onClick={handleClick}
-                className="font-[700] mb-0 text-[#111111] text-[36px]"
+                className="font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px]"
               >
                 {formListTitle.title}
               </h2>
@@ -221,7 +222,7 @@ const ItemList = () => {
               onClick={handleClickEdit}
             />
           </div>
-          <div className="flex-[0.3] flex flex-row gap-4">
+          <div className="md:flex-[0.3] flex flex-row gap-4 w-full items-center justify-end md:justify-start">
             <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
               <Dropdown.Toggle
                 id="dropdown-sort"
@@ -266,7 +267,9 @@ const ItemList = () => {
               onClick={handleListItem}
               className="bg-[#16ABF8] text-white"
             >
-              + Tambah
+              <div className="flex items-center justify-center">
+                <img src={Plus} alt="plus" /> <h4 className="mb-0 font-[600] text-[12px] md:text-[16px] text-white">Tambah</h4>
+              </div>
             </ToDoButton>
           </div>
         </section>
