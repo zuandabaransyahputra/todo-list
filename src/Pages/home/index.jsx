@@ -20,15 +20,15 @@ const Home = () => {
     dispatch(getDataActivity())
   }, [dispatch])
 
-  console.log(dataActivity)
-
   return (
-    <div className='flex flex-col h-full w-full px-[220px] py-[43px]'>
+    <div className='flex flex-col h-full w-[1000px] mx-auto py-[43px]'>
       <section className='flex w-full items-start justify-between'>
         <h2 className='text-[#111111] font-[700] text-[36px]'>Activity</h2>
         <ToDoButton onClick={handleClick} className="bg-[#16ABF8] text-white">{isLoading ? (
           <Spinner animation='border' variant="light" />
-        ) : <>+Tambah</>}
+        ) : <>
+          +Tambah
+        </>}
         </ToDoButton>
       </section>
       <section className='flex justify-start w-full py-[70px]'>
@@ -36,9 +36,9 @@ const Home = () => {
           <img src={Image} alt="background" />
           <div onClick={handleClick} className='absolute bg-[#16ABF8] top-[94px] cursor-pointer opacity-0 right-[165px] w-[117px] h-[117px] rounded-full'></div>
         </div>) : (
-          <div className="grid grid-cols-primary gap-[20px]">
+          <div className="grid grid-cols-primary gap-[20px] w-[1000px]">
             {dataActivity.map(data => (
-              <CardToDo key={data.id} title={data.title} tanggal={data.created_at} />
+              <CardToDo key={data.id} title={data.title} tanggal={data.created_at} id={data.id} />
             ))}
           </div>
         )}

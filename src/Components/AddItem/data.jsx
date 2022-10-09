@@ -1,5 +1,4 @@
 export const options = [
-  { value: 'Pilih priority', label: 'Pilih priority', color: '#fff', isDisabled: true },
   { value: 'Very High', label: 'Very High', color: '#ED4C5C', },
   { value: 'High', label: 'High', color: '#F8A541' },
   {

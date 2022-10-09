@@ -1,10 +1,11 @@
 // ** Redux Imports
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getData, postData } from '../utils/fetchdata'
+import { deleteData, getData, postData } from '../utils/fetchdata'
 
 const initialState = {
   dataActivity: [],
   isLoading: false,
+  isSuccess: false
 }
 
 export const getDataActivity = createAsyncThunk('activity/getDataActivity', async () => {
@@ -26,9 +27,19 @@ export const createActivity = createAsyncThunk('activity/createActivity', async 
   }
 })
 
+export const deleteActivity = createAsyncThunk('activity/deleteActivity', async (id, params = {}) => {
+  const response = await deleteData(`/activity-groups/${id}`, params)
+  return {
+    data: response.data
+  }
+})
+
 export const activitiesSlice = createSlice({
   name: 'activity',
   initialState,
+  reducers: {
+    reset: (state) => state.isSuccess = false
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createActivity.pending, (state) => {
@@ -36,6 +47,14 @@ export const activitiesSlice = createSlice({
       })
       .addCase(createActivity.fulfilled, (state, action) => {
         state.isLoading = false
+      })
+      .addCase(deleteActivity.pending, (state) => {
+        state.isLoading = true
+        state.isSuccess = false
+      })
+      .addCase(deleteActivity.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
       })
       .addCase(getDataActivity.pending, (state) => {
         state.isLoading = true
@@ -46,5 +65,7 @@ export const activitiesSlice = createSlice({
       })
   }
 })
+
+export const { reset } = activitiesSlice.actions
 
 export default activitiesSlice.reducer

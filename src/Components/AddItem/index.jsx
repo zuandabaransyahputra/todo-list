@@ -4,7 +4,6 @@ import ToDoButton from '../Button';
 import Select from 'react-select';
 import { options } from './data';
 import chroma from 'chroma-js';
-import Check from '../../assets/images/tabler_check.png';
 
 const dot = (color = 'transparent') => ({
   alignItems: 'center',
@@ -41,7 +40,7 @@ const colourStyles = {
         height: 10,
         width: 10,
       },
-      ':after': isSelected && !isDisabled
+      ':after': isSelected
         ? {
           content: '"✓"',
           marginLeft: '30px',
@@ -66,7 +65,7 @@ const AddItem = ({ isModal, setIsModal }) => {
   };
 
   return (
-    <Modal show={isModal} className="rounded modal-xl">
+    <Modal show={isModal} className="rounded modal-lg" centered>
       <Modal.Header onHide={handleCloseModal} closeButton>
         <h2 className="mb-0 font-[600] text-[18px] text-[#111111]">
           Tambah List Item

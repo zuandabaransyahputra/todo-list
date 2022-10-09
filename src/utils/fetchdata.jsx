@@ -13,15 +13,12 @@ export async function getData(url, params) {
 
 export async function postData(url, payload) {
   return await axios.post(`${process.env.REACT_APP_URL}${url}`, payload)
-
 }
 
-export async function putData(url, payload) {
-
-  return await axios.put(`${process.env.REACT_APP_URL}${url}`, payload)
+export async function patchData(url, payload) {
+  return await axios.patch(`${process.env.REACT_APP_URL}${url}`, payload)
 }
 
-export async function deleteData(url) {
-
-  return await axios.delete(`${process.env.REACT_APP_URL}${url}`)
+export async function deleteData(url, params) {
+  return await axios.delete(`${process.env.REACT_APP_URL}${url}`, { params })
 }
