@@ -264,6 +264,7 @@ const ItemList = () => {
               </Dropdown.Menu>
             </Dropdown>
             <ToDoButton
+              data-cy="activity-add-button"
               onClick={handleListItem}
               className="bg-[#16ABF8] text-white"
             >
@@ -321,6 +322,7 @@ const ItemList = () => {
                   />
                 </div>
                 <FiTrash
+                  data-cy="activity-item-delete-button"
                   className="cursor-pointer"
                   onClick={e => handleDeleteList(e, list.id, list.title)}
                 />

@@ -26,9 +26,13 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
     }
   };
 
+  const handleClose = () => {
+    setIsModal(false)
+  }
+
   return (
     <>
-      <Modal show={isModal} className="modal-lg">
+      <Modal show={isModal} className="modal-lg" onHide={handleClose}>
         <Modal.Body>
           <div className="flex flex-col items-center justify-center h-full py-[50px] gap-[50px]">
             <img src={Delete} alt="Delete" />
@@ -38,6 +42,7 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
             </h2>
             <div className="flex items-center gap-[20px] justify-center">
               <ToDoButton
+                data-cy="modal-delete-cancel-button"
                 className="bg-[#f4f4f4] text-[#4a4a4a]"
                 onClick={() => setIsModal(false)}
               >
@@ -46,6 +51,7 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
               <ToDoButton
                 className="bg-[#ED4C5C] text-white"
                 onClick={handleDelete}
+                data-cy="activity-item-delete-button"
               >
                 {isLoading ? (
                   <Spinner animation="border" variant="light" />
