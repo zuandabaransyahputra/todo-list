@@ -12,10 +12,10 @@ const ModalSuccessDelete = ({ isDelete }) => {
   }
 
   return (
-    <Modal show={isDelete} className="modal-md" centered onHide={handleClose}>
+    <Modal show={isDelete} className="modal-md" centered data-cy="modal-information" onHide={handleClose}>
       <div className='py-3 px-2 flex justify-start items-center'>
-        <img src={ModalInfo} alt="Modal Info" />
-        <h3 className="mb-0 font-[500] text-[#111111] text-[14px] ml-[15px]">Activity berhasil dihapus</h3>
+        <img data-cy="modal-information-icon" src={ModalInfo} alt="Modal Info" />
+        <h3 data-cy="modal-information-title" className="mb-0 font-[500] text-[#111111] text-[14px] ml-[15px]">Activity berhasil dihapus</h3>
       </div>
     </Modal>
   )

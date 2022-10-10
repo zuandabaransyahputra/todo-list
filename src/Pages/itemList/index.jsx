@@ -187,10 +187,11 @@ const ItemList = () => {
         type={type}
         editId={editId}
       />
-      <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
+      <div data-cy="activity-item" className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
         <section className="flex flex-col md:flex-row gap-[20px] items-start md:items-center justify-start md:justify-between ">
           <div className="md:flex-[0.7] flex items-center justify-start">
             <img
+              data-cy="todo-back-button"
               src={ImageBack}
               alt="back button"
               className="mr-[35px] cursor-pointer"
@@ -198,6 +199,7 @@ const ItemList = () => {
             />
             {isEdit ? (
               <input
+                data-cy="todo-title"
                 onBlur={() => setIsEdit(false)}
                 onFocus={() => setIsEdit(true)}
                 autoFocus={isEdit}
@@ -209,6 +211,7 @@ const ItemList = () => {
               />
             ) : (
               <h2
+                data-cy="todo-title"
                 onClick={handleClick}
                 className="font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px]"
               >
@@ -216,6 +219,7 @@ const ItemList = () => {
               </h2>
             )}
             <img
+              data-cy="todo-edit-button"
               src={ImageEdit}
               alt="Edit"
               className="ml-[35px] cursor-pointer"
@@ -229,8 +233,10 @@ const ItemList = () => {
                 as="a"
                 onClick={toggleDropdown}
                 className="dropdown-toggle"
+                data-cy="todo-sort-button"
               >
                 <img
+                  data-cy="tabler:arrows-sort"
                   src={SortButton}
                   alt="Sort Button"
                   className="cursor-pointer"
@@ -238,12 +244,14 @@ const ItemList = () => {
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu dropdown-menu-end profile-dropdown">
                 <div
+                  data-cy="sort-parent"
                   onClick={toggleDropdown}
                   className="rounded-md min-w-[235px]"
                 >
                   {dataDropdown.map(item => {
                     return (
                       <div
+                        data-cy={item.testing}
                         onClick={e => handleClickFilter(e, item)}
                         className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
                         key={item.id}
@@ -264,7 +272,7 @@ const ItemList = () => {
               </Dropdown.Menu>
             </Dropdown>
             <ToDoButton
-              data-cy="activity-add-button"
+              data-cy="todo-add-button"
               onClick={handleListItem}
               className="bg-[#16ABF8] text-white"
             >
@@ -276,7 +284,7 @@ const ItemList = () => {
         </section>
         <section className="flex flex-col gap-[10px] items-center justify-center w-full h-full mt-[50px]">
           {listTodo.length === 0 ? (
-            <div className="relative">
+            <div className="relative" data-cy="todo-empty-state">
               <img src={bgItemList} alt="item list" />
               <div
                 onClick={handleListItem}
@@ -286,6 +294,7 @@ const ItemList = () => {
           ) : (
             listTodo.map((list, index) => (
               <div
+                data-cy={`todo-item-${index}`}
                 key={list.id}
                 className={[
                   'flex px-[45px] justify-between items-center w-full h-[80px] rounded-[12px]',

@@ -115,23 +115,25 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
 
   return (
     <Modal show={isModal} className="rounded modal-lg" centered>
-      <Modal.Header onHide={handleCloseModal} closeButton>
-        <h2 className="mb-0 font-[600] text-[18px] text-[#111111]">
+      <Modal.Header onHide={handleCloseModal} closeButton data-cy="modal-add-close-button">
+        <h2 data-cy="modal-add-title" className="mb-0 font-[600] text-[18px] text-[#111111]">
           Tambah List Item
         </h2>
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Label>NAMA LIST ITEM</Form.Label>
+          <Form.Label data-cy="modal-add-name-title">NAMA LIST ITEM</Form.Label>
           <Form.Control
+            data-cy="modal-add-name-input"
             type="text"
             placeholder="Tambahkan nama list item"
             className="mb-3 py-2"
             value={listItem.title}
             onChange={handleChange}
           />
-          <Form.Label>PRIORITY</Form.Label>
+          <Form.Label data-cy="modal-add-priority-title">PRIORITY</Form.Label>
           <Select
+            data-cy="modal-add-priority-dropdown"
             className='w-[205px] cursor-pointer'
             defaultValue={options.find(i => i.value === listItem.priority) || options[0]}
             options={options}
@@ -144,6 +146,7 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
         <Row>
           <Col className="d-flex align-items-center justify-content-end">
             <ToDoButton
+              data-cy="modal-add-save-button"
               disabled={listItem.title === ''}
               className={[
                 'bg-[#16ABF8] text-white',

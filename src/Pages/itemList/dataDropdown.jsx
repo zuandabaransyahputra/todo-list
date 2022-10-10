@@ -8,26 +8,31 @@ export const dataDropdown = [
   {
     id: 1,
     image: SortLatest,
-    title: 'Terbaru'
+    title: 'Terbaru',
+    testing: 'sort-latest'
   },
   {
     id: 2,
     image: SortOldest,
-    title: 'Terlama'
+    title: 'Terlama',
+    testing: 'sort-oldest'
   },
   {
     id: 3,
     image: SortAZ,
-    title: 'A-Z'
+    title: 'A-Z',
+    testing: 'sort-az'
   },
   {
     id: 4,
     image: SortZA,
-    title: 'Z-A'
+    title: 'Z-A',
+    testing: 'sort-za'
   },
   {
     id: 5,
     image: SortUnfinished,
-    title: 'Belum Selesai'
+    title: 'Belum Selesai',
+    testing: 'sort-unfinished'
   }
 ]

@@ -32,11 +32,11 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
 
   return (
     <>
-      <Modal show={isModal} className="modal-lg" onHide={handleClose}>
+      <Modal show={isModal} className="modal-lg" centered onHide={handleClose} data-cy="modal-delete">
         <Modal.Body>
           <div className="flex flex-col items-center justify-center h-full py-[50px] gap-[50px]">
-            <img src={Delete} alt="Delete" />
-            <h2 className="mb-0 font-[500] text-[18px] text-[#111111] max-w-[365px] text-center">
+            <img src={Delete} alt="Delete" data-cy="modal-delete-icon" />
+            <h2 data-cy="modal-delete-title" className="mb-0 font-[500] text-[18px] text-[#111111] max-w-[365px] text-center">
               {title.split('"')[0]}
               <span className="font-bold ">"{title.split('"').slice(1, 3)}"</span>
             </h2>
@@ -51,7 +51,7 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
               <ToDoButton
                 className="bg-[#ED4C5C] text-white"
                 onClick={handleDelete}
-                data-cy="activity-item-delete-button"
+                data-cy="modal-delete-confirm-button"
               >
                 {isLoading ? (
                   <Spinner animation="border" variant="light" />
