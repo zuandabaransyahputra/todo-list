@@ -233,10 +233,9 @@ const ItemList = () => {
                 as="a"
                 onClick={toggleDropdown}
                 className="dropdown-toggle"
-                data-cy="todo-sort-button"
               >
                 <img
-                  data-cy="tabler:arrows-sort"
+                  data-cy="todo-sort-button"
                   src={SortButton}
                   alt="Sort Button"
                   className="cursor-pointer"
@@ -272,7 +271,7 @@ const ItemList = () => {
               </Dropdown.Menu>
             </Dropdown>
             <ToDoButton
-              data-cy="todo-add-button"
+              data_cy="todo-add-button"
               onClick={handleListItem}
               className="bg-[#16ABF8] text-white"
             >

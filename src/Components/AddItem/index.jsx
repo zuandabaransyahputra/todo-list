@@ -132,21 +132,22 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
             onChange={handleChange}
           />
           <Form.Label data-cy="modal-add-priority-title">PRIORITY</Form.Label>
-          <Select
-            data-cy="modal-add-priority-dropdown"
-            className='w-[205px] cursor-pointer'
-            defaultValue={options.find(i => i.value === listItem.priority) || options[0]}
-            options={options}
-            styles={colourStyles}
-            onChange={handleChangeOption}
-          />
+          <div data-cy="modal-add-priority-dropdown">
+            <Select
+              className='w-[205px] cursor-pointer'
+              defaultValue={options.find(i => i.value === listItem.priority) || options[0]}
+              options={options}
+              styles={colourStyles}
+              onChange={handleChangeOption}
+            />
+          </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Row>
           <Col className="d-flex align-items-center justify-content-end">
             <ToDoButton
-              data-cy="modal-add-save-button"
+              data_cy="modal-add-save-button"
               disabled={listItem.title === ''}
               className={[
                 'bg-[#16ABF8] text-white',

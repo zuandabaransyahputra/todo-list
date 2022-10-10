@@ -31,7 +31,7 @@ const CardToDo = ({ title, tanggal, id, index }) => {
         style={{ boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.1)' }}
       >
         <h2 data-cy="activity-item-title" onClick={handleClickActivity} className="mb-0 text-[#111111] font-[700] text-[14px] md:text-[18px]">{title}</h2>
-        <div onClick={handleClickActivity} className="w-full h-full cursor-pointer"></div>
+        <div data-cy={`activity-item-${id}`} onClick={handleClickActivity} className="w-full h-full cursor-pointer"></div>
         <div className="flex justify-between items-center">
           <h4 data-cy="activity-item-date" className="mb-0 font-[500] text-[10px] md:text-[14px] text-[#888888]">
             {new Date(tanggal).toLocaleDateString('id-ID', {
