@@ -233,9 +233,9 @@ const ItemList = () => {
                 as="a"
                 onClick={toggleDropdown}
                 className="dropdown-toggle"
+                data-cy="todo-sort-button"
               >
                 <img
-                  data-cy="todo-sort-button"
                   src={SortButton}
                   alt="Sort Button"
                   className="cursor-pointer"
@@ -255,7 +255,7 @@ const ItemList = () => {
                         className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
                         key={item.id}
                       >
-                        <div className='w-full flex  items-center justify-start gap-4'>
+                        <div data-cy={item.testing} className='w-full flex  items-center justify-start gap-4'>
                           <img src={item.image} alt={`Sort ${item.id}`} />
                           <h3 className="font-400 text-[16px] text-[#4a4a4a] mb-0">
                             {item.title}
@@ -305,6 +305,7 @@ const ItemList = () => {
               >
                 <div className="flex items-center justify-start gap-[22px]">
                   <input
+                    data-cy="todo-item-checkbox"
                     type={'checkbox'}
                     checked={Boolean(!list.is_active)}
                     onChange={e => handleChange(e, list.id, index)}
@@ -314,6 +315,7 @@ const ItemList = () => {
                     if (prio.priority === list.priority) {
                       return (
                         <div
+                          data-cy="todo-item-priority-indicator"
                           key={prio.id}
                           style={{ background: `${prio.color}` }}
                           className={[`w-[9px] h-[9px] rounded-full`].join(' ')}
@@ -321,8 +323,9 @@ const ItemList = () => {
                       );
                     }
                   })}
-                  <h4 className="mb-0">{list.title}</h4>
+                  <h4 data-cy="todo-item-title" className="mb-0">{list.title}</h4>
                   <img
+                    data-cy="todo-item-edit-button"
                     src={ImageEdit}
                     alt="Edit"
                     className="ml-[35px] cursor-pointer"
@@ -330,7 +333,7 @@ const ItemList = () => {
                   />
                 </div>
                 <FiTrash
-                  data-cy="activity-item-delete-button"
+                  data-cy="todo-item-delete-button"
                   className="cursor-pointer"
                   onClick={e => handleDeleteList(e, list.id, list.title)}
                 />

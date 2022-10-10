@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Spinner } from 'react-bootstrap';
+import { Modal, Spinner, Row } from 'react-bootstrap';
 import Delete from '../../assets/images/modal-delete-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ToDoButton from '../Button';
@@ -31,8 +31,8 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
   }
 
   return (
-    <>
-      <Modal show={isModal} className="modal-lg" centered onHide={handleClose} data-cy="modal-delete">
+    <Modal show={isModal} className="modal-lg" centered onHide={handleClose}>
+      <div data-cy="modal-delete">
         <Modal.Body>
           <div className="flex flex-col items-center justify-center h-full py-[50px] gap-[50px]">
             <img src={Delete} alt="Delete" data-cy="modal-delete-icon" />
@@ -62,8 +62,8 @@ const Alert = ({ title, isModal, setIsModal, id, type }) => {
             </div>
           </div>
         </Modal.Body>
-      </Modal>
-    </>
+      </div>
+    </Modal>
   );
 };
 

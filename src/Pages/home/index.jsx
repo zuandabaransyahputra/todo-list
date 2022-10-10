@@ -48,8 +48,8 @@ const Home = () => {
           <div onClick={handleClick} className='absolute bg-[#16ABF8] top-[94px] cursor-pointer opacity-0 right-[165px] w-[117px] h-[117px] rounded-full'></div>
         </div>) : (
           <div className="grid grid-cols-primary-mobile md:grid-cols-primary justify-center gap-[20px] w-[1000px]">
-            {dataActivity.map((data, index) => (
-              <CardToDo index={index} key={data.id} title={data.title} tanggal={data.created_at} id={data.id} />
+            {dataActivity.map((data) => (
+              <CardToDo key={data.id} title={data.title} tanggal={data.created_at} id={data.id} />
             ))}
           </div>
         )}

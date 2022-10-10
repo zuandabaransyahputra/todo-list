@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../Alert';
 import ModalSuccessDelete from '../ModalSuccessDelete';
 
-const CardToDo = ({ title, tanggal, id, index }) => {
+const CardToDo = ({ title, tanggal, id }) => {
   const [isModal, setIsModal] = useState(false)
   const navigate = useNavigate()
   const activity = useSelector(state => state.activity)
@@ -26,7 +26,7 @@ const CardToDo = ({ title, tanggal, id, index }) => {
       <ModalSuccessDelete isDelete={isDelete} />
       <Alert type="activity" id={id} title={`Apakah anda yakin menghapus activity "${title}"?`} isModal={isModal} setIsModal={setIsModal} />
       <div
-        data-cy={`activity-item-${index}`}
+        data-cy={`activity-item-${id}`}
         className="flex flex-col justify-between py-[22px] px-[27px] bg-white rounded-[12px] min-h-[150px] md:min-h-[234px] cursor-pointer"
         style={{ boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.1)' }}
       >
