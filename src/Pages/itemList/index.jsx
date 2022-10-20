@@ -14,6 +14,7 @@ import { dataDropdown } from './dataDropdown';
 import ActiveIcon from '../../assets/images/active.png';
 import Plus from '../../assets/images/tabler_plus.png';
 import './style.scss';
+import ModalSuccessDelete from '../../Components/ModalSuccessDelete';
 
 const colorPriority = [
   {
@@ -45,6 +46,7 @@ const colorPriority = [
 
 const ItemList = () => {
   const [isModal, setIsModal] = useState(false);
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
   const [isActiveFilter, setIsActiveFilter] = useState(0);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -102,7 +104,7 @@ const ItemList = () => {
     await patchData(`/todo-items/${id}`, _temp[index]);
   };
 
-  console.log(listTodo);
+  // console.log(listTodo);
 
   const handleClick = e => {
     e.preventDefault();
@@ -166,7 +168,7 @@ const ItemList = () => {
       });
     } else {
       _temp.sort(function (a, b) {
-        return b.is_active.localeCompare(a.is_active);
+        return b.is_active - a.is_active;
       });
     }
     setIsActiveFilter(item.id);
@@ -175,9 +177,15 @@ const ItemList = () => {
 
   return (
     <>
+      <ModalSuccessDelete
+        isDelete={isDeleteSuccess}
+        setIsDelete={setIsDeleteSuccess}
+        title={'Berhasil hapus item'}
+      />
       <Alert
         isModal={isDelete}
         setIsModal={setIsDelete}
+        setIsDeleteSuccess={setIsDeleteSuccess}
         type="todo"
         id={deleteList.id}
         title={`Apakah anda yakin menghapus List Item "${deleteList.title}"?`}

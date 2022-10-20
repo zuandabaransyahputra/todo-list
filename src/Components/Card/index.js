@@ -23,7 +23,10 @@ const CardToDo = ({ title, tanggal, id }) => {
 
   return (
     <>
-      <ModalSuccessDelete isDelete={isDelete} />
+      <ModalSuccessDelete
+        isDelete={isDelete}
+        title={'Activity berhasil dihapus'}
+      />
       <Alert
         type="activity"
         id={id}

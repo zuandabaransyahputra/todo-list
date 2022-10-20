@@ -4,11 +4,12 @@ import { useDispatch } from 'react-redux';
 import ModalInfo from '../../assets/images/modal-information-icon.png';
 import { reset } from '../../redux/activityGroups';
 
-const ModalSuccessDelete = ({ isDelete }) => {
+const ModalSuccessDelete = ({ isDelete, setIsDelete, title }) => {
   const dispatch = useDispatch();
 
   const handleClose = e => {
     dispatch(reset());
+    setIsDelete(false);
   };
 
   return (
@@ -29,7 +30,7 @@ const ModalSuccessDelete = ({ isDelete }) => {
           data-cy="modal-information-title"
           className="mb-0 font-[500] text-[#111111] text-[14px] ml-[15px]"
         >
-          Activity berhasil dihapus
+          {title}
         </h3>
       </div>
     </Modal>
