@@ -102,6 +102,8 @@ const ItemList = () => {
     await patchData(`/todo-items/${id}`, _temp[index]);
   };
 
+  console.log(listTodo);
+
   const handleClick = e => {
     e.preventDefault();
     setIsEdit(true);

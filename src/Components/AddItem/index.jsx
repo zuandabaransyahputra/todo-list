@@ -6,25 +6,16 @@ import { FiChevronDown, FiX } from 'react-icons/fi';
 import { options } from './data';
 
 const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
-  const [listItem, setListItem] = useState({
-    activity_group_id: id,
-    title: '',
-    priority: 'very-high',
-  });
+  const [listItem, setListItem] = useState({});
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState({
-    id: 1,
-    value: 'very-high',
-    label: 'Very High',
-    color: '#ED4C5C',
-  });
+  const [activeDropdown, setActiveDropdown] = useState({});
   const handleCloseModal = () => {
     setIsModal(false);
   };
 
   useEffect(() => {
-    const fetch = async id => {
-      if (type === 'EditList') {
+    if (type === 'EditList') {
+      const fetch = async id => {
         const response = await getData(`/todo-items/${id}`);
         setListItem({
           ...listItem,
@@ -32,11 +23,28 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
           priority: response.data.priority,
           is_active: response.data.is_active,
         });
-      }
-    };
-    fetch(editId);
+        options.forEach(item => {
+          if (response.data.priority === item.value) {
+            setActiveDropdown(item);
+          }
+        });
+      };
+      fetch(editId);
+    } else {
+      setListItem({
+        activity_group_id: id,
+        title: '',
+        priority: 'very-high',
+      });
+      setActiveDropdown({
+        id: 1,
+        value: 'very-high',
+        label: 'Very High',
+        color: '#ED4C5C',
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editId, type]);
+  }, [editId, type, id]);
 
   const handleChange = e => {
     setListItem({
@@ -53,6 +61,16 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
       await postData('/todo-items', listItem);
     }
     setIsModal(false);
+    setListItem({
+      ...listItem,
+      title: '',
+    });
+    setActiveDropdown({
+      id: 1,
+      value: 'very-high',
+      label: 'Very High',
+      color: '#ED4C5C',
+    });
   };
 
   const toggleDropdown = () => {
@@ -61,6 +79,10 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
 
   const handleClickDropdown = (e, item) => {
     e.preventDefault();
+    setListItem({
+      ...listItem,
+      priority: item.value,
+    });
     setActiveDropdown(item);
   };
 
@@ -68,7 +90,6 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
     <Modal
       show={isModal}
       className="rounded modal-lg"
-      centered
       data-cy="modal-add"
       onHide={handleCloseModal}
     >
@@ -109,18 +130,17 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
               className="dropdown-toggle"
               data-cy="modal-add-priority-dropdown"
             >
-              <div className="flex items-center justify-between w-[205px] cursor-pointer">
+              <div className="flex items-center justify-between w-[205px] cursor-pointer border-[1px] rounded-md py-[14px] px-[17px]">
                 <div className="flex gap-4 items-center">
                   <div
                     style={{ backgroundColor: activeDropdown.color }}
                     className={`rounded-full w-[14px] h-[14px] `}
                   ></div>
-                  <h4
-                    className="text-[16px] text-[#111111] font-[400] mb-0"
-                    data-cy="modal-add-priority-item"
-                  >
-                    {activeDropdown.label}
-                  </h4>
+                  <div data-cy="modal-add-priority-item">
+                    <h4 className="text-[16px] text-[#111111] font-[400] mb-0">
+                      {activeDropdown.label}
+                    </h4>
+                  </div>
                 </div>
                 <FiChevronDown color="#111111" />
               </div>

@@ -15,7 +15,7 @@ export const options = [
   },
   {
     id: 3,
-    value: 'medium',
+    value: 'normal',
     label: 'Medium',
     color: '#00A790',
     data: 'modal-add-priority-medium',
