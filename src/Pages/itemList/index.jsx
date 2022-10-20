@@ -226,13 +226,16 @@ const ItemList = () => {
             />
           </div>
           <div className="md:flex-[0.3] flex flex-row gap-4 w-full items-center justify-end md:justify-start">
-            <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
+            <Dropdown
+              show={dropdownOpen}
+              onToggle={toggleDropdown}
+              data-cy="todo-sort-button"
+            >
               <Dropdown.Toggle
                 id="dropdown-sort"
                 as="a"
                 onClick={toggleDropdown}
                 className="dropdown-toggle"
-                data-cy="todo-sort-button"
               >
                 <img
                   src={SortButton}
