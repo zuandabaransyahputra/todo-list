@@ -43,7 +43,7 @@ const CardToDo = ({ title, tanggal, id }) => {
           {title}
         </h2>
         <div
-          data-cy={`activity-item-${id}`}
+          data-cy={`activity-item`}
           onClick={handleClickActivity}
           className="w-full h-full cursor-pointer"
         ></div>

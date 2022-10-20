@@ -199,7 +199,6 @@ const ItemList = () => {
             />
             {isEdit ? (
               <input
-                data-cy="todo-title"
                 onBlur={() => setIsEdit(false)}
                 onFocus={() => setIsEdit(true)}
                 autoFocus={isEdit}
