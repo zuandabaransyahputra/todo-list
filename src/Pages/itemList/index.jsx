@@ -223,6 +223,7 @@ const ItemList = () => {
               />
             ) : (
               <h2
+                data-cy="todo-title"
                 onClick={handleClick}
                 className="font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px]"
               >
