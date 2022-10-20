@@ -306,7 +306,7 @@ const ItemList = () => {
           ) : (
             listTodo.map((list, index) => (
               <div
-                data-cy={`todo-item-${index}`}
+                data-cy={`todo-item`}
                 key={list.id}
                 className={[
                   'flex px-[45px] justify-between items-center w-full h-[80px] rounded-[12px]',
