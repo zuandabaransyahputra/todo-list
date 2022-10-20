@@ -73,7 +73,7 @@ const ItemList = () => {
     setIsEdit(!isEdit);
   };
 
-  const handleChangeTitle = e => {
+  const handleChangeTitle = async e => {
     e.preventDefault();
     setFormListTitle({
       ...formListTitle,
@@ -176,6 +176,11 @@ const ItemList = () => {
     setListTodo(_temp);
   };
 
+  const handleOnBlur = async () => {
+    await patchData(`/activity-groups/${params.id}`, formListTitle);
+    setIsEdit(false);
+  };
+
   return (
     <>
       <ModalSuccessDelete
@@ -202,17 +207,17 @@ const ItemList = () => {
       <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
         <section className="flex flex-col md:flex-row gap-[20px] items-start md:items-center justify-start md:justify-between ">
           <div className="md:flex-[0.7] flex items-center justify-start">
-            <img
-              data-cy="todo-back-button"
-              src={ImageBack}
-              alt="back button"
-              className="mr-[35px] cursor-pointer"
-              onClick={handleClickBack}
-            />
+            <div data-cy="todo-back-button">
+              <img
+                src={ImageBack}
+                alt="back button"
+                className="mr-[35px] cursor-pointer"
+                onClick={handleClickBack}
+              />
+            </div>
             {isEdit ? (
               <input
-                // data-cy="todo-title"
-                onBlur={() => setIsEdit(false)}
+                onBlur={handleOnBlur}
                 onFocus={() => setIsEdit(true)}
                 autoFocus={isEdit}
                 type="text"
@@ -222,21 +227,22 @@ const ItemList = () => {
                 className="border-0 font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px] focus:outline-none w-[70%]"
               />
             ) : (
-              <div
+              <h2
                 data-cy="todo-title"
                 onClick={handleClick}
                 className="font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px]"
               >
                 {formListTitle.title}
-              </div>
+              </h2>
             )}
-            <img
-              data-cy="todo-edit-button"
-              src={ImageEdit}
-              alt="Edit"
-              className="ml-[35px] cursor-pointer"
-              onClick={handleClickEdit}
-            />
+            <div data-cy="todo-edit-button">
+              <img
+                src={ImageEdit}
+                alt="Edit"
+                className="ml-[35px] cursor-pointer"
+                onClick={handleClickEdit}
+              />
+            </div>
           </div>
           <div className="md:flex-[0.3] flex flex-row gap-4 w-full items-center justify-end md:justify-start">
             <Dropdown
