@@ -187,10 +187,7 @@ const ItemList = () => {
         type={type}
         editId={editId}
       />
-      <div
-        data-cy="activity-item"
-        className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]"
-      >
+      <div className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
         <section className="flex flex-col md:flex-row gap-[20px] items-start md:items-center justify-start md:justify-between ">
           <div className="md:flex-[0.7] flex items-center justify-start">
             <img

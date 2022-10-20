@@ -61,10 +61,7 @@ const Home = () => {
           )}
         </ToDoButton>
       </section>
-      <section
-        data-cy="activity-item"
-        className="flex justify-start w-full py-[70px]"
-      >
+      <section className="flex justify-start w-full py-[70px]">
         {dataActivity.length === 0 ? (
           <div data-cy="activity-empty-state" className="relative">
             <img data-cy="activity-empty-state" src={Image} alt="background" />
