@@ -43,9 +43,9 @@ const colourStyles = {
       },
       ':after': isSelected
         ? {
-          content: '"✓"',
-          marginLeft: '30px',
-        }
+            content: '"✓"',
+            marginLeft: '30px',
+          }
         : { content: '" "' },
     };
   },
@@ -58,7 +58,7 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
   const [listItem, setListItem] = useState({
     activity_group_id: id,
     title: '',
-    priority: 'very-high'
+    priority: 'very-high',
   });
 
   const handleCloseModal = () => {
@@ -66,57 +66,68 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
   };
 
   useEffect(() => {
-    const fetch = async (id) => {
+    const fetch = async id => {
       if (type === 'EditList') {
-        const response = await getData(`/todo-items/${id}`)
+        const response = await getData(`/todo-items/${id}`);
         setListItem({
           ...listItem,
           title: response.data.title,
           priority: response.data.priority,
-          is_active: response.data.is_active
-        })
+          is_active: response.data.is_active,
+        });
       }
-    }
-    fetch(editId)
+    };
+    fetch(editId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editId, type])
+  }, [editId, type]);
 
   const handleChange = e => {
     setListItem({
       ...listItem,
-      title: e.target.value
+      title: e.target.value,
     });
   };
 
-  const handleSimpan = async (e) => {
-    e.preventDefault()
+  const handleSimpan = async e => {
+    e.preventDefault();
     if (type === 'EditList') {
-      await patchData(`/todo-items/${editId}`, listItem)
+      await patchData(`/todo-items/${editId}`, listItem);
     } else {
-      await postData('/todo-items', listItem)
+      await postData('/todo-items', listItem);
     }
-    setIsModal(false)
-  }
+    setIsModal(false);
+  };
 
-  const handleChangeOption = (e) => {
+  const handleChangeOption = e => {
     if (e.value === 'medium') {
       setListItem({
         ...listItem,
-        priority: 'normal'
-      })
+        priority: 'normal',
+      });
     } else {
       setListItem({
         ...listItem,
-        priority: e.value
-      })
+        priority: e.value,
+      });
     }
-
-  }
+  };
 
   return (
-    <Modal show={isModal} className="rounded modal-lg" centered>
-      <Modal.Header onHide={handleCloseModal} closeButton data-cy="modal-add-close-button">
-        <h2 data-cy="modal-add-title" className="mb-0 font-[600] text-[18px] text-[#111111]">
+    <Modal
+      show={isModal}
+      className="rounded modal-lg"
+      centered
+      data-cy="modal-add"
+    >
+      <Modal.Header
+        onHide={handleCloseModal}
+        closeButton
+        data-cy="modal-add-close-button"
+      >
+        <h2
+          data-cy="modal-add-title"
+          className="mb-0 font-[600] text-[18px] text-[#111111]"
+        >
           Tambah List Item
         </h2>
       </Modal.Header>
@@ -134,8 +145,10 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
           <Form.Label data-cy="modal-add-priority-title">PRIORITY</Form.Label>
           <div data-cy="modal-add-priority-dropdown">
             <Select
-              className='w-[205px] cursor-pointer'
-              defaultValue={options.find(i => i.value === listItem.priority) || options[0]}
+              className="w-[205px] cursor-pointer"
+              defaultValue={
+                options.find(i => i.value === listItem.priority) || options[0]
+              }
               options={options}
               styles={colourStyles}
               onChange={handleChangeOption}
