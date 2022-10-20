@@ -226,11 +226,7 @@ const ItemList = () => {
             />
           </div>
           <div className="md:flex-[0.3] flex flex-row gap-4 w-full items-center justify-end md:justify-start">
-            <Dropdown
-              show={dropdownOpen}
-              onToggle={toggleDropdown}
-              data-cy="todo-sort-button"
-            >
+            <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
               <Dropdown.Toggle
                 id="dropdown-sort"
                 as="a"
