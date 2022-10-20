@@ -1,58 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Col, Row, Form } from 'react-bootstrap';
+import { Modal, Col, Row, Form, Dropdown } from 'react-bootstrap';
 import ToDoButton from '../Button';
-import Select from 'react-select';
-import { options } from './data';
-import chroma from 'chroma-js';
 import { getData, patchData, postData } from '../../utils/fetchdata';
-
-const dot = (color = 'transparent') => ({
-  alignItems: 'center',
-  display: 'flex',
-
-  ':before': {
-    backgroundColor: color,
-    borderRadius: 10,
-    content: '" "',
-    display: 'block',
-    marginRight: 8,
-    height: 10,
-    width: 10,
-  },
-});
-
-const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: 'white' }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    const color = chroma(data.color);
-    return {
-      ...styles,
-      width: '205px',
-      display: 'flex',
-      alignItems: 'center',
-      backgroundColor: chroma.contrast(color, 'white'),
-      color: chroma.contrast(color, 'black'),
-      ':before': {
-        backgroundColor: data.color,
-        borderRadius: 10,
-        content: '" "',
-        display: 'block',
-        marginRight: 8,
-        height: 10,
-        width: 10,
-      },
-      ':after': isSelected
-        ? {
-            content: '"✓"',
-            marginLeft: '30px',
-          }
-        : { content: '" "' },
-    };
-  },
-  input: styles => ({ ...styles, ...dot() }),
-  placeholder: styles => ({ ...styles, ...dot('#ccc') }),
-  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-};
+import { FiChevronDown, FiX } from 'react-icons/fi';
+import { options } from './data';
 
 const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
   const [listItem, setListItem] = useState({
@@ -60,7 +11,13 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
     title: '',
     priority: 'very-high',
   });
-
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState({
+    id: 1,
+    value: 'very-high',
+    label: 'Very High',
+    color: '#ED4C5C',
+  });
   const handleCloseModal = () => {
     setIsModal(false);
   };
@@ -98,18 +55,13 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
     setIsModal(false);
   };
 
-  const handleChangeOption = e => {
-    if (e.value === 'medium') {
-      setListItem({
-        ...listItem,
-        priority: 'normal',
-      });
-    } else {
-      setListItem({
-        ...listItem,
-        priority: e.value,
-      });
-    }
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleClickDropdown = (e, item) => {
+    e.preventDefault();
+    setActiveDropdown(item);
   };
 
   return (
@@ -118,42 +70,90 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
       className="rounded modal-lg"
       centered
       data-cy="modal-add"
+      onHide={handleCloseModal}
     >
-      <Modal.Header
-        onHide={handleCloseModal}
-        closeButton
-        data-cy="modal-add-close-button"
-      >
+      <Modal.Header>
         <h2
           data-cy="modal-add-title"
           className="mb-0 font-[600] text-[18px] text-[#111111]"
         >
           Tambah List Item
         </h2>
+        <div
+          className="cursor-pointer"
+          data-cy="modal-add-close-button"
+          onClick={handleCloseModal}
+        >
+          <FiX size={26} />
+        </div>
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Label data-cy="modal-add-name-title">NAMA LIST ITEM</Form.Label>
-          <Form.Control
-            data-cy="modal-add-name-input"
-            type="text"
-            placeholder="Tambahkan nama list item"
-            className="mb-3 py-2"
-            value={listItem.title}
-            onChange={handleChange}
-          />
-          <Form.Label data-cy="modal-add-priority-title">PRIORITY</Form.Label>
-          <div data-cy="modal-add-priority-dropdown">
-            <Select
-              className="w-[205px] cursor-pointer"
-              defaultValue={
-                options.find(i => i.value === listItem.priority) || options[0]
-              }
-              options={options}
-              styles={colourStyles}
-              onChange={handleChangeOption}
+          <label data-cy="modal-add-name-title">NAMA LIST ITEM</label>
+          <div data-cy="modal-add-name-input" className="w-full mb-2">
+            <input
+              type="text"
+              placeholder="Tambahkan nama list item"
+              className="p-2 w-full focus:bg-none outline-none border-[1px] rounded-md"
+              value={listItem.title}
+              onChange={handleChange}
             />
           </div>
+          <label data-cy="modal-add-priority-title" className="mb-2">
+            PRIORITY
+          </label>
+          <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
+            <Dropdown.Toggle
+              id="dropdown-sort"
+              as="a"
+              onClick={toggleDropdown}
+              className="dropdown-toggle"
+              data-cy="modal-add-priority-dropdown"
+            >
+              <div className="flex items-center justify-between w-[205px] cursor-pointer">
+                <div className="flex gap-4 items-center">
+                  <div
+                    style={{ backgroundColor: activeDropdown.color }}
+                    className={`rounded-full w-[14px] h-[14px] `}
+                  ></div>
+                  <h4
+                    className="text-[16px] text-[#111111] font-[400] mb-0"
+                    data-cy="modal-add-priority-item"
+                  >
+                    {activeDropdown.label}
+                  </h4>
+                </div>
+                <FiChevronDown color="#111111" />
+              </div>
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dropdown-menu dropdown-menu-end">
+              <div
+                onClick={toggleDropdown}
+                className="rounded-md min-w-[235px]"
+              >
+                {options.map(item => {
+                  return (
+                    <div
+                      data-cy={item.data}
+                      className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
+                      key={item.id}
+                      onClick={e => handleClickDropdown(e, item)}
+                    >
+                      <div className="w-full flex  items-center justify-start gap-4">
+                        <div
+                          style={{ backgroundColor: item.color }}
+                          className={`rounded-full w-[14px] h-[14px]`}
+                        ></div>
+                        <h3 className="font-400 text-[16px] text-[#4a4a4a] mb-0">
+                          {item.label}
+                        </h3>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Dropdown.Menu>
+          </Dropdown>
         </Form>
       </Modal.Body>
       <Modal.Footer>
