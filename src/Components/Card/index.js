@@ -26,6 +26,7 @@ const CardToDo = ({ title, tanggal, id }) => {
       <ModalSuccessDelete
         isDelete={isDelete}
         title={'Activity berhasil dihapus'}
+        type="activity"
       />
       <Alert
         type="activity"

@@ -136,7 +136,9 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
                     style={{ backgroundColor: activeDropdown.color }}
                     className={`rounded-full w-[14px] h-[14px] `}
                   ></div>
-                  <div data-cy="modal-add-priority-item">
+                  <div
+                    data-cy={`modal-add-priority-item-${activeDropdown.id - 1}`}
+                  >
                     <h4 className="text-[16px] text-[#111111] font-[400] mb-0">
                       {activeDropdown.label}
                     </h4>

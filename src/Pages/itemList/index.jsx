@@ -88,8 +88,9 @@ const ItemList = () => {
     }
   };
 
-  const handleClickBack = e => {
+  const handleClickBack = async e => {
     e.preventDefault();
+    await patchData(`/activity-groups/${params.id}`, formListTitle);
     navigate('/');
   };
 
@@ -181,6 +182,7 @@ const ItemList = () => {
         isDelete={isDeleteSuccess}
         setIsDelete={setIsDeleteSuccess}
         title={'Berhasil hapus item'}
+        type="todo"
       />
       <Alert
         isModal={isDelete}

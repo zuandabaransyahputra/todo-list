@@ -4,12 +4,15 @@ import { useDispatch } from 'react-redux';
 import ModalInfo from '../../assets/images/modal-information-icon.png';
 import { reset } from '../../redux/activityGroups';
 
-const ModalSuccessDelete = ({ isDelete, setIsDelete, title }) => {
+const ModalSuccessDelete = ({ isDelete, setIsDelete, title, type }) => {
   const dispatch = useDispatch();
 
   const handleClose = e => {
-    dispatch(reset());
-    setIsDelete(false);
+    if (type === 'activity') {
+      dispatch(reset());
+    } else {
+      setIsDelete(false);
+    }
   };
 
   return (

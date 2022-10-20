@@ -44,7 +44,7 @@ const Alert = ({
         className="modal-lg"
         centered
         onHide={handleClose}
-        data-cy="modal-delete"
+        data-cy="todo-modal-delete"
       >
         <Modal.Body>
           <div className="flex flex-col items-center justify-center h-full py-[50px] gap-[50px]">
