@@ -12,7 +12,7 @@ import { Dropdown } from 'react-bootstrap';
 import SortButton from '../../assets/images/todo-sort-button.png';
 import { dataDropdown } from './dataDropdown';
 import ActiveIcon from '../../assets/images/active.png';
-import Plus from '../../assets/images/tabler_plus.png'
+import Plus from '../../assets/images/tabler_plus.png';
 import './style.scss';
 
 const colorPriority = [
@@ -187,7 +187,10 @@ const ItemList = () => {
         type={type}
         editId={editId}
       />
-      <div data-cy="activity-item" className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]">
+      <div
+        data-cy="activity-item"
+        className="flex flex-col gap-4 lg:max-w-[1000px] lg:px-0 px-[20px] md:px-20 mx-auto py-[38px]"
+      >
         <section className="flex flex-col md:flex-row gap-[20px] items-start md:items-center justify-start md:justify-between ">
           <div className="md:flex-[0.7] flex items-center justify-start">
             <img
@@ -227,7 +230,11 @@ const ItemList = () => {
             />
           </div>
           <div className="md:flex-[0.3] flex flex-row gap-4 w-full items-center justify-end md:justify-start">
-            <Dropdown show={dropdownOpen} onToggle={toggleDropdown} data-cy="todo-sort-button">
+            <Dropdown
+              show={dropdownOpen}
+              onToggle={toggleDropdown}
+              data-cy="todo-sort-button"
+            >
               <Dropdown.Toggle
                 id="dropdown-sort"
                 as="a"
@@ -255,7 +262,10 @@ const ItemList = () => {
                         className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
                         key={item.id}
                       >
-                        <div data-cy={item.testing} className='w-full flex  items-center justify-start gap-4'>
+                        <div
+                          data-cy={item.testing}
+                          className="w-full flex  items-center justify-start gap-4"
+                        >
                           <img src={item.image} alt={`Sort ${item.id}`} />
                           <h3 className="font-400 text-[16px] text-[#4a4a4a] mb-0">
                             {item.title}
@@ -276,7 +286,10 @@ const ItemList = () => {
               className="bg-[#16ABF8] text-white"
             >
               <div className="flex items-center justify-center">
-                <img src={Plus} alt="plus" /> <h4 className="mb-0 font-[600] text-[12px] md:text-[16px] text-white">Tambah</h4>
+                <img src={Plus} alt="plus" />{' '}
+                <h4 className="mb-0 font-[600] text-[12px] md:text-[16px] text-white">
+                  Tambah
+                </h4>
               </div>
             </ToDoButton>
           </div>
@@ -284,7 +297,11 @@ const ItemList = () => {
         <section className="flex flex-col gap-[10px] items-center justify-center w-full h-full mt-[50px]">
           {listTodo.length === 0 ? (
             <div className="relative" data-cy="todo-empty-state">
-              <img src={bgItemList} alt="item list" />
+              <img
+                data-cy="todo-empty-state"
+                src={bgItemList}
+                alt="item list"
+              />
               <div
                 onClick={handleListItem}
                 className="absolute w-[78px] h-[78px] bg-black rounded-full top-0 right-3 opacity-0 cursor-pointer"
@@ -312,18 +329,20 @@ const ItemList = () => {
                     className="w-[20px] h-[20px]"
                   />
                   {colorPriority.map(prio => {
-                    if (prio.priority === list.priority) {
-                      return (
+                    return (
+                      prio.priority === list.priority && (
                         <div
                           data-cy="todo-item-priority-indicator"
                           key={prio.id}
                           style={{ background: `${prio.color}` }}
                           className={[`w-[9px] h-[9px] rounded-full`].join(' ')}
                         ></div>
-                      );
-                    }
+                      )
+                    );
                   })}
-                  <h4 data-cy="todo-item-title" className="mb-0">{list.title}</h4>
+                  <h4 data-cy="todo-item-title" className="mb-0">
+                    {list.title}
+                  </h4>
                   <img
                     data-cy="todo-item-edit-button"
                     src={ImageEdit}

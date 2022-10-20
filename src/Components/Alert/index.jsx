@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Spinner, Row } from 'react-bootstrap';
+import { Modal, Spinner } from 'react-bootstrap';
 import Delete from '../../assets/images/modal-delete-icon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ToDoButton from '../Button';
