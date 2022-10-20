@@ -136,11 +136,9 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
                     style={{ backgroundColor: activeDropdown.color }}
                     className={`rounded-full w-[14px] h-[14px] `}
                   ></div>
-                  <div data-cy={`modal-add-priority-item`}>
-                    <h4 className="text-[16px] text-[#111111] font-[400] mb-0">
-                      {activeDropdown.label}
-                    </h4>
-                  </div>
+                  <h4 className="text-[16px] text-[#111111] font-[400] mb-0">
+                    {activeDropdown.label}
+                  </h4>
                 </div>
                 <FiChevronDown color="#111111" />
               </div>
@@ -153,7 +151,7 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
                 {options.map(item => {
                   return (
                     <div
-                      data-cy={item.data}
+                      data-cy={`modal-add-priority-item`}
                       className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
                       key={item.id}
                       onClick={e => handleClickDropdown(e, item)}
