@@ -104,7 +104,6 @@ const AddItem = ({ isModal, setIsModal, id, type, editId }) => {
           </label>
           <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
             <Dropdown.Toggle
-              id="dropdown-sort"
               as="a"
               onClick={toggleDropdown}
               className="dropdown-toggle"

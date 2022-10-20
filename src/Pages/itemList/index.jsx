@@ -252,17 +252,24 @@ const ItemList = () => {
                   {dataDropdown.map(item => {
                     return (
                       <div
-                        data-cy={item.testing}
                         onClick={e => handleClickFilter(e, item)}
                         className="flex cursor-pointer items-center justify-between border-b-[1px] py-[14px] px-[24px]"
                         key={item.id}
+                        data-cy="sort-selection"
                       >
                         <div
                           data-cy={item.testing}
                           className="w-full flex  items-center justify-start gap-4"
                         >
-                          <img src={item.image} alt={`Sort ${item.id}`} />
-                          <h3 className="font-400 text-[16px] text-[#4a4a4a] mb-0">
+                          <img
+                            src={item.image}
+                            alt={`Sort ${item.id}`}
+                            data-cy="sort-selection-icon"
+                          />
+                          <h3
+                            className="font-400 text-[16px] text-[#4a4a4a] mb-0"
+                            data-cy="sort-selection-title"
+                          >
                             {item.title}
                           </h3>
                         </div>
