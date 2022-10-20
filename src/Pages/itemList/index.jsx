@@ -211,6 +211,7 @@ const ItemList = () => {
             />
             {isEdit ? (
               <input
+                data-cy="todo-title"
                 onBlur={() => setIsEdit(false)}
                 onFocus={() => setIsEdit(true)}
                 autoFocus={isEdit}
@@ -222,7 +223,6 @@ const ItemList = () => {
               />
             ) : (
               <h2
-                data-cy="todo-title"
                 onClick={handleClick}
                 className="font-[700] mb-0 text-[#111111] text-[16px] md:text-[36px]"
               >
